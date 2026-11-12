@@ -1,0 +1,381 @@
+/* ===== Daily Task: style.css ===== */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #e8edf2;
+  --surface: #ffffff;
+  --ink: #16213a;
+  --ink-soft: #5b6780;
+  --line: #d3dbe5;
+  --accent: #2557d6;
+  --accent-dark: #1b43a8;
+  --accent-tint: #e6edfc;
+  --danger: #c0392b;
+  --danger-tint: #fdeceb;
+  --radius: 12px;
+  --font: 'Figtree', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: clamp(1.25rem, 5vw, 3.5rem) 1rem 4rem;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* ----- Page header (added by script.js) ----- */
+.page-header,
+body > form,
+body > ol,
+.empty-state {
+  width: min(38rem, 100%);
+  margin-inline: auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.task-count {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* ----- Add-task form ----- */
+body > form {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 2px rgba(22, 33, 58, 0.06);
+}
+
+body > form br { display: none; }
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+body > form label:not(:first-of-type) { margin-top: 0.75rem; }
+
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  color: var(--ink);
+  background: #f7f9fc;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+textarea {
+  min-height: 5.5rem;
+  resize: vertical;
+  overflow: hidden;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  outline: none;
+  background: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-tint);
+}
+
+.field-hint {
+  justify-self: end;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+body > form > button[type="submit"] {
+  margin-top: 1rem;
+  padding: 0.8rem 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: 0;
+  border-radius: 8px;
+  transition: background 0.15s, transform 0.1s;
+}
+
+body > form > button[type="submit"]:hover { background: var(--accent-dark); }
+body > form > button[type="submit"]:active { transform: translateY(1px); }
+button:disabled { opacity: 0.6; cursor: wait; }
+
+button:focus-visible {
+  outline: 3px solid var(--accent-tint);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* ----- Task list ----- */
+body > ol {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: task;
+  display: grid;
+  gap: 0.75rem;
+}
+
+body > ol > li {
+  counter-increment: task;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1rem 1rem 1rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 2px rgba(22, 33, 58, 0.05);
+  overflow-wrap: anywhere;
+}
+
+body > ol > li::before {
+  content: counter(task);
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-top: 0.1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-tint);
+  border-radius: 50%;
+}
+
+.task-body { flex: 1; min-width: 0; }
+
+.task-name {
+  display: block;
+  font-weight: 700;
+}
+
+.task-desc {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--ink-soft);
+}
+
+body > ol > li form { flex: none; margin-left: auto; }
+
+li button[name="delete"] {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+li button[name="delete"]:hover,
+li button[name="delete"]:focus-visible {
+  color: var(--danger);
+  background: var(--danger-tint);
+  border-color: var(--danger);
+}
+
+/* Animation for the item being removed (triggered in script.js) */
+li.is-removing {
+  opacity: 0;
+  transform: translateX(1rem);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+/* ----- Empty state ----- */
+.empty-state {
+  margin-top: 1.5rem;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--ink-soft);
+  border: 2px dashed var(--line);
+  border-radius: var(--radius);
+}
+
+.empty-state strong { display: block; color: var(--ink); margin-bottom: 0.2rem; }
+
+/* ----- Small screens ----- */
+@media (max-width: 480px) {
+  body > form { padding: 1.1rem; }
+  body > ol > li { flex-wrap: wrap; }
+  body > ol > li form { margin-left: 2.65rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* ===== Checkbox + done state ===== */
+body > ol > li.has-check::before { display: none; }
+
+.task-check {
+  flex: none;
+  position: relative;
+  display: block;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-top: 0.05rem;
+  cursor: pointer;
+}
+
+.task-check input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.task-check .box {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--line);
+  border-radius: 7px;
+  background: #f7f9fc;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.task-check:hover .box { border-color: var(--accent); }
+
+.task-check .box::after {
+  content: '';
+  width: 0.4rem;
+  height: 0.75rem;
+  margin-top: -0.12rem;
+  border: solid #fff;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.15s;
+}
+
+.task-check input:checked + .box {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.task-check input:checked + .box::after { transform: rotate(45deg) scale(1); }
+
+.task-check input:focus-visible + .box {
+  box-shadow: 0 0 0 3px var(--accent-tint), 0 0 0 5px var(--accent);
+}
+
+/* Done task: crossed out and muted */
+li.is-done { border-left-color: var(--line); background: #f4f6f9; }
+
+li.is-done .task-name,
+li.is-done .task-desc {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  color: var(--ink-soft);
+  opacity: 0.75;
+}
+
+/* ===== Delete confirmation dialog ===== */
+.confirm-dialog {
+  width: min(24rem, calc(100% - 2rem));
+  padding: 0;
+  color: var(--ink);
+  background: var(--surface);
+  border: 0;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(22, 33, 58, 0.3);
+}
+
+.confirm-dialog::backdrop {
+  background: rgba(22, 33, 58, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.confirm-dialog[open] { animation: dialog-in 0.18s ease-out; }
+.confirm-dialog[open]::backdrop { animation: backdrop-in 0.18s ease-out; }
+
+@keyframes dialog-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+
+.confirm-dialog form { padding: 1.5rem; }
+
+.confirm-dialog h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.confirm-text {
+  margin: 0 0 1.5rem;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.confirm-actions button {
+  padding: 0.65rem 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-cancel {
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+}
+.btn-cancel:hover { background: #f1f4f8; }
+
+.btn-delete {
+  color: #fff;
+  background: var(--danger);
+  border: 1px solid var(--danger);
+}
+.btn-delete:hover { background: #a02e22; }
+
+@media (prefers-reduced-motion: reduce) {
+  .confirm-dialog[open],
+  .confirm-dialog[open]::backdrop { animation: none; }
+}
